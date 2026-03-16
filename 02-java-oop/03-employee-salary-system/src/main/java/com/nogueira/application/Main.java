@@ -15,8 +15,8 @@ public class Main {
         System.out.print("Name: ");
         String name = sc.nextLine();
 
-        double grossSalary = lerDoubleSeguro(sc, "Gross salary: ");
-        double tax = lerDoubleSeguro(sc, "Tax: ");
+        double grossSalary = readValidatedDouble(sc, "Gross salary: ");
+        double tax = readValidatedDouble(sc, "Tax: ");
 
         // Criando o objeto original
         Employee employee = new Employee(name, grossSalary, tax);
@@ -32,22 +32,22 @@ public class Main {
 
                 break;
             } catch (IllegalArgumentException e) {
-                System.out.println("ERRO: " + e.getMessage());
+                System.out.println("Error: " + e.getMessage());
             } catch (java.util.InputMismatchException e) {
-                System.out.println("ERRO: Por favor, digite um número válido.");
+                System.out.println("Error: Please enter a valid number.");
                 sc.next();
             }
         }
         sc.close();
     }
 
-    public static double lerDoubleSeguro(Scanner sc, String mensagem) {
+    public static double readValidatedDouble(Scanner sc, String message) {
         while (true) {
             try {
-                System.out.print(mensagem);
+                System.out.print(message);
                 return sc.nextDouble(); // Retorna o valor se for correto
             } catch (java.util.InputMismatchException e) {
-                System.out.println("Erro: Entrada inválida. Digite um número.");
+                System.out.println("Error: Invalid input. Please enter a valid number.");
                 sc.nextLine(); // Limpa o buffer do scanner
             }
         }
