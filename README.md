@@ -1,19 +1,7 @@
-# Estudo de Java ☕
+# Hi there! 👋
 
-Este repositório contém os códigos e exercícios desenvolvidos durante o meu aprendizado de **Java**. O objetivo é documentar minha evolução na linguagem, desde a lógica de programação até conceitos mais avançados.
+I'm a Software Engineering student in transition. With a background in military discipline and retail management, I'm now applying my problem-solving skil to Java Backend development.
 
-## Estrutura do Repositório
-
-- `exercicio-exemplos-basicos`: Exercícios sobre tipos de dados, leitura de entrada, formatação (`printf`) e operadores.
-- `exemplos-basicos/`: Códigos de teste e experimentos iniciais.
-
-## Tecnologias Utilizadas
-- Java 25+
-- VS Code
-- Git e GitHub
-
-## Como acompanhar
-Este é um repositório de estudos contínuos!
-
----
-*Criado por Eduardo Nogueira*
+- 🔭 Currently learning: Java Core, Object-Oriented Programming (OOP), and Clean Code.
+- 🌱 Goal: Building a solid foundation to become a Backend Developer.
+- 🌍 Languages: Portuguese (Native), English (C1), German (A1).

@@ -1,4 +1,4 @@
-package com.nogueira.entites;
+package com.nogueira.entities;
 
 public class Rectangle {
 

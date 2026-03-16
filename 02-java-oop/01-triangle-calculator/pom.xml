@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.nogueira</groupId>
-    <artifactId>01-introducao-ao-poo</artifactId>
+    <artifactId>01-triangle-calculator</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

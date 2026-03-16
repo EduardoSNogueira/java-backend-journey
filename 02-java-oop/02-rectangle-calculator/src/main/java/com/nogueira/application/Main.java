@@ -1,6 +1,6 @@
 package com.nogueira.application;
 
-import com.nogueira.entites.Rectangle;
+import com.nogueira.entities.Rectangle;
 import java.util.Locale;
 import java.util.Scanner;
 
