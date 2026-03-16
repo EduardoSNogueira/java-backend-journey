@@ -13,7 +13,7 @@ The goal is to move beyond procedural programming and implement robust, reusable
 ### Projects
 - **Triangle Calculator:** Focuses on implementing mathematical formulas within a class structure to improve code reusability.
 - **Rectangle Calculator:** An implementation of a class to handle geometric calculations with encapsulated data.
-
+- **Employee Salary System**: A practical demonstration of immutability, defensive programming, and robust input validation in Java.
 
 ---
 *Practicing to become a professional Software Engineer.*
