@@ -24,4 +24,8 @@ public class Student {
         return StudentStatus.fromGrade(finalGrade());
     }
 
+    @Override
+    public String toString() {
+        return String.format("Nome: %s | Nota: %.2f | Status: %s", name, finalGrade(), getStatus());
+    }
 }

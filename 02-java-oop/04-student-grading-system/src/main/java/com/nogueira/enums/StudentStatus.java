@@ -1,8 +1,8 @@
 package com.nogueira.enums;
 
 public enum StudentStatus {
-    FAIL(0.0, 49.9),
-    RECOVERY(50.0, 59.9),
+    FAIL(0.0, 50.00),
+    RECOVERY(50.0, 60.00),
     PASSED(60.0, 79.9),
     EXCELLENCE(80.0, 100.0);
 
@@ -16,10 +16,11 @@ public enum StudentStatus {
 
     public static StudentStatus fromGrade(double grade) {
         for (StudentStatus status : StudentStatus.values()) {
-            if (grade >= status.minGrade && grade <= status.maxGrade) {
+            if (grade >= status.minGrade && grade < status.maxGrade) {
                 return status;
             }
         }
         return EXCELLENCE;
     }
+
 }
