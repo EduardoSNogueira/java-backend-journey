@@ -24,7 +24,7 @@ public class Main {
 
         while (true) {
             try {
-                System.out.print("Which percentage to increase salary? ");
+                System.out.println("Which percentage to increase salary? ");
                 double percentage = sc.nextDouble();
 
                 Employee updatedEmployee = employee.applyIncrease(percentage);
