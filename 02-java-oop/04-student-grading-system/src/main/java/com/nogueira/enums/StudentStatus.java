@@ -20,7 +20,7 @@ public enum StudentStatus {
                 return status;
             }
         }
-        return EXCELLENCE;
+        throw new IllegalArgumentException("Grade out of range");
     }
 
 }

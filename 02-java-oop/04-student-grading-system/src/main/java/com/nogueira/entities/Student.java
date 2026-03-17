@@ -24,8 +24,20 @@ public class Student {
         return StudentStatus.fromGrade(finalGrade());
     }
 
+    public double missingPoints() {
+        if (getStatus() == StudentStatus.RECOVERY) {
+            return 60.0 - finalGrade();
+        }
+        return 0.0;
+    }
+
     @Override
     public String toString() {
-        return String.format("Nome: %s | Nota: %.2f | Status: %s", name, finalGrade(), getStatus());
+        String report = String.format("Nome: %s | Nota: %.2f | Status: %s", name, finalGrade(), getStatus());
+
+        if (getStatus() == StudentStatus.RECOVERY) {
+            report += String.format(" | MISSING %.2f POINTS TO PASS", missingPoints());
+        }
+        return report;
     }
 }

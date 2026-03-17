@@ -30,4 +30,15 @@ public class InputHelper {
             return input;
         }
     }
+
+    public static Double readCappedGrade(Scanner sc, String message, double maxLimit) {
+        while (true) {
+            double value = readValidatedDouble(sc, message + " (Max: " + maxLimit + "): ");
+            if (value >= 0 && value <= maxLimit) {
+                return value;
+            }
+            System.out.println("Error: Grade must be between 0 and " + maxLimit);
+        }
+
+    }
 }
