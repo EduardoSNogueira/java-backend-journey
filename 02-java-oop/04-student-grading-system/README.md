@@ -33,18 +33,18 @@ A Java-based student management system developed to consolidate concepts of Obje
 ### Installation & Execution
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/eduardosnogueira/EstudoJava.git https://github.com/eduardosnogueira/EstudoJava.git
+   git clone https://github.com/EduardoSNogueira/java-backend-journey
    ```
 
 2. **Navigate to the project's root folder**
    ```bash
-   cd EstudoJava
+   cd java-backend-journey
    ```
 
 3. **Compile all files at once**
    ```bash
-   javac -d bin src/com/nogueira/application/Main.java src/com/nogueira/entities/*.java src/com/nogueira/utils/*.java
-   ```
+    javac -d bin src/com/nogueira/application/Main.java src/com/nogueira/entities/*.java src/com/nogueira/utils/*.java src/com/nogueira/enums/*.java   
+    ```
 
 4. **Run the application**
    ```bash
