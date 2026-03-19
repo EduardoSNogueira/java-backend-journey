@@ -1,0 +1,31 @@
+package com.nogueira.entities;
+
+import java.time.LocalDate;
+import com.nogueira.enums.Category;
+
+import com.nogueira.enums.TransactionType;
+
+public class Transaction {
+
+    private String description;// DESCRIÇÃO DO GASTO
+    private Category category;// CATEGORIA DENTRO DO EXPENSE
+    private double amount;// TOTAL DO DINHEIRO
+    private TransactionType type;// INCOME/EXPENSE
+    private LocalDate date;
+
+    public Transaction(String description, Category category, double amount, TransactionType type, LocalDate date) {
+        this.description = description;
+        this.category = category;
+        this.amount = amount;
+        this.type = type;
+        this.date = date;
+    }
+
+    public Transaction(String description, Category category, double amount, TransactionType type) {
+        this.description = description;
+        this.category = category;
+        this.amount = amount;
+        this.type = type;
+        this.date = LocalDate.now(); // O sistema carimba a data de hoje aqui!
+    }
+}
