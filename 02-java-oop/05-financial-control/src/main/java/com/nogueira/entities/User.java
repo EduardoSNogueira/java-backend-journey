@@ -40,4 +40,8 @@ public class User {
         return (int) age;// converte para 'int'
     }
 
+    public List<Transaction> getTransactions() {
+        return this.transactions;
+    }
+
 }

@@ -55,4 +55,14 @@ public class Transaction {
     public LocalDate getDate() {
         return this.date;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%tD | %-15s | %8.2f | %s ",
+                getDate(),
+                getDescription(),
+                getSignedAmount(),
+                getCategory());
+
+    }
 }

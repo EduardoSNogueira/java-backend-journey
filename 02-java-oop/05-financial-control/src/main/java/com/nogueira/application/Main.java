@@ -1,6 +1,7 @@
 package com.nogueira.application;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -33,19 +34,24 @@ public class Main {
 
             switch (option) {
                 case 1:
+                    System.out.println("-----------------------------");
                     addIncome(eduardo);
                     break;
                 case 2:
+                    System.out.println("-----------------------------");
                     addExpense(eduardo);
                     break;
                 case 3:
-                    System.out.println("--- YOUR STATEMENT ---");
+                    System.out.println("-----------------------------");
+                    seeStatement(eduardo);
                     break;
                 case 4:
+                    System.out.println("-----------------------------");
                     System.out.println("Exiting... See you later!");
                     running = false;
                     break;
                 default:
+                    System.out.println("-----------------------------");
                     System.out.println("Invalid option! Try again.");
             }
 
@@ -119,4 +125,17 @@ public class Main {
 
     }
 
+    public static void seeStatement(User user) {
+        List<Transaction> list = user.getTransactions();
+
+        if (list.isEmpty()) {
+            System.out.println("No records found.");
+        } else {
+            for (Transaction t : user.getTransactions()) {
+                System.out.println(t);
+            }
+        }
+        System.out.println("-----------------------------");
+        System.out.println("Final Balance: R$ " + user.calculateBalance());
+    }
 }
