@@ -6,10 +6,10 @@ import com.nogueira.enums.TransactionType;
 
 public class Transaction {
 
-    private String description;// DESCRIÇÃO DO GASTO
-    private Category category;// CATEGORIA DENTRO DO EXPENSE
-    private double amount;// TOTAL DO DINHEIRO
-    private TransactionType type;// INCOME/EXPENSE
+    private String description;
+    private Category category;
+    private double amount;
+    private TransactionType type;
     private LocalDate date;
 
     public Transaction(String description, Category category, double amount, TransactionType type, LocalDate date) {
