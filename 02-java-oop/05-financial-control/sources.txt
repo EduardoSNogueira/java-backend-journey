@@ -1,0 +1,10 @@
+src/main/java/com/nogueira/entities/Expense.java
+src/main/java/com/nogueira/entities/Income.java
+src/main/java/com/nogueira/entities/Transaction.java
+src/main/java/com/nogueira/entities/User.java
+src/main/java/com/nogueira/repository/TransactionRepository.java
+src/main/java/com/nogueira/application/Main.java
+src/main/java/com/nogueira/enums/TransactionType.java
+src/main/java/com/nogueira/enums/Category.java
+src/main/java/com/nogueira/utils/InputHelper.java
+src/main/java/com/nogueira/utils/FileHandler.java
