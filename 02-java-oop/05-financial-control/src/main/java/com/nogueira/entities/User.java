@@ -3,10 +3,13 @@ package com.nogueira.entities;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+
+import com.nogueira.enums.TransactionType;
+
 import java.util.ArrayList;
 
 public class User {
-    private List<Transaction> transactions;
+    private List<Transaction> transactions = new ArrayList<>();
     private String name;
     private LocalDate birthDate;
     private double initialBalance;
@@ -15,23 +18,30 @@ public class User {
         this.name = name;
         this.birthDate = birthDate;
         this.initialBalance = initialBalance;
-        this.transactions = new ArrayList<>();
-    }
-
-    public void addTransaction(Transaction transaction) {
-        this.transactions.add(transaction);
     }
 
     public double calculateBalance() {
-        double balance = this.initialBalance;
-        for (Transaction t : this.transactions) {
-            balance += t.getSignedAmount();
+        double balance = initialBalance;
+        for (Transaction t : transactions) {
+            if (t.getType() == TransactionType.INCOME) {
+                balance += t.getAmount();
+            } else {
+                balance -= t.getAmount();
+            }
         }
         return balance;
     }
 
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public double getInitialBalance() {
+        return initialBalance;
+    }
+
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public int getAge() {
@@ -41,7 +51,11 @@ public class User {
     }
 
     public List<Transaction> getTransactions() {
-        return this.transactions;
+        return transactions;
+    }
+
+    public void addTransaction(Transaction t) {
+        this.transactions.add(t);
     }
 
 }

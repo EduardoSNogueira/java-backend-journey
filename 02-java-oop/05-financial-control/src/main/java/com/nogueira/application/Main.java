@@ -1,10 +1,5 @@
 package com.nogueira.application;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +9,8 @@ import com.nogueira.entities.User;
 import com.nogueira.entities.Transaction;
 import com.nogueira.enums.Category;
 import com.nogueira.enums.TransactionType;
+import com.nogueira.repository.TransactionRepository;
+import com.nogueira.repository.UserRepository;
 
 public class Main {
     private static Scanner sc = new Scanner(System.in);
@@ -21,13 +18,24 @@ public class Main {
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
 
-        User eduardo = new User("Eduardo S. Nogueira", LocalDate.of(1996, 5, 8), 2000.0);
-        loadFromFile(eduardo);
-        boolean running = true;
+        User user = UserRepository.load();
 
+        if (user == null) {
+            user = createNewUser();
+            UserRepository.save(user);
+        }
+
+        TransactionRepository.load(user);
+
+        boolean running = true;
         while (running) {
-            System.out.println("\n=== WiseCash Menu ===");
-            System.out.println("Current Balance: R$ " + eduardo.calculateBalance());
+            System.out.println("\n--------------------------------------");
+            System.out.println("             WiseCash Menu            ");
+            System.out.println("--------------------------------------");
+
+            System.out.println("Hello " + user.getName() + "  ||  " + user.getAge() + " Years");
+            System.out.println("Current Balance: R$ " + user.calculateBalance());
+            System.out.println("--------------------------------------");
             System.out.println("1. Add Income");
             System.out.println("2. Add Expense");
             System.out.println("3. View Statement ");
@@ -40,20 +48,20 @@ public class Main {
             switch (option) {
                 case 1:
                     System.out.println("-----------------------------");
-                    addIncome(eduardo);
+                    addIncome(user);
                     break;
                 case 2:
                     System.out.println("-----------------------------");
-                    addExpense(eduardo);
+                    addExpense(user);
                     break;
                 case 3:
                     System.out.println("-----------------------------");
-                    seeStatement(eduardo);
+                    seeStatement(user);
                     break;
                 case 4:
                     System.out.println("-----------------------------");
                     System.out.println("Saving data...");
-                    saveToFile(eduardo);
+                    TransactionRepository.save(user);
                     System.out.println("Exiting... See you later!");
                     running = false;
                     break;
@@ -64,6 +72,26 @@ public class Main {
 
         }
         sc.close();
+    }
+
+    public static User createNewUser() {
+        System.out.println("--------------------------------------");
+        System.out.println("   WELCOME TO WISECASH - 1st ACCESS   ");
+        System.out.println("--------------------------------------");
+
+        System.out.print("Enter your full name: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter your birth date (YYYY-MM-DD): ");
+        String dateStr = sc.nextLine();
+        LocalDate birthDate = LocalDate.parse(dateStr);
+
+        System.out.print("Enter your current account balance: ");
+        double initialBalance = sc.nextDouble();
+        sc.nextLine();
+
+        System.out.println("\nProfile created successfully!");
+        return new User(name, birthDate, initialBalance);
     }
 
     public static void addIncome(User user) {
@@ -146,51 +174,4 @@ public class Main {
         System.out.println("Final Balance: R$ " + user.calculateBalance());
     }
 
-    public static void saveToFile(User user) {
-        String path = "transactions.csv";
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
-            for (Transaction t : user.getTransactions()) {
-                String line = String.format("%s,%s,% .2f,%s,%s",
-                        t.getDate(),
-                        t.getDescription(),
-                        t.getAmount(),
-                        t.getType(),
-                        t.getCategory());
-                bw.write(line);
-                bw.newLine();
-            }
-            bw.flush();
-            System.out.println("Data saved successfully!");
-
-        } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
-        }
-    }
-
-    public static void loadFromFile(User user) {
-        String path = "transactions.csv";
-
-        try (BufferedReader br = new BufferedReader(new FileReader((path)))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-
-                LocalDate date = LocalDate.parse(data[0]);
-                String description = data[1];
-                double amount = Double.parseDouble(data[2]);
-                TransactionType type = TransactionType.valueOf(data[3]);
-                Category category = Category.valueOf(data[4]);
-
-                Transaction t = new Transaction(description, category, amount, type, date);
-                user.addTransaction(t);
-            }
-            System.out.println("History loaded successfully!");
-        } catch (IOException e) {
-            System.out.println("No previous history found. Starting fresh");
-
-        } catch (Exception e) {
-            System.out.println("Error parsing data: " + e.getMessage());
-        }
-    }
 }
