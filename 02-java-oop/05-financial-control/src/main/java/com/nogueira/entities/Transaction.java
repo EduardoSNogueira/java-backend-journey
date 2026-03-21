@@ -58,7 +58,7 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return String.format("%tD | %-15s | %8.2f | %s ",
+        return String.format("%1$td/%1$tm/%1$tY | %2$-15s | %3$8.2f | %4$s ",
                 getDate(),
                 getDescription(),
                 getSignedAmount(),

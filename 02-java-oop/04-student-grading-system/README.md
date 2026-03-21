@@ -24,33 +24,6 @@ A Java-based student management system developed to consolidate concepts of Obje
 * **Exception Handling:** Catching `InputMismatchException` to ensure system stability.
 * **Clean Code:** Separated utility methods (`InputHelper`) to keep the code readable and reusable.
 
-## 📋 How to Run
-
-### Prerequisites
-* **Java JDK 17** or higher installed.
-* Terminal or Command Prompt access.
-
-### Installation & Execution
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/EduardoSNogueira/java-backend-journey
-   ```
-
-2. **Navigate to the project's root folder**
-   ```bash
-   cd java-backend-journey
-   ```
-
-3. **Compile all files at once**
-   ```bash
-    javac -d bin src/com/nogueira/application/Main.java src/com/nogueira/entities/*.java src/com/nogueira/utils/*.java src/com/nogueira/enums/*.java   
-    ```
-
-4. **Run the application**
-   ```bash
-   java -cp bin com.nogueira.application.Main
-   ```
-
 ## 📸 Usage Example
 
 Below is a demonstration of the application running, showing the dynamic student registration and the final report.
