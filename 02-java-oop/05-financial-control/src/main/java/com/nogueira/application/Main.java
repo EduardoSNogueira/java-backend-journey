@@ -36,7 +36,8 @@ public class Main {
             System.out.println("1. Add Income");
             System.out.println("2. Add Expense");
             System.out.println("3. View Statement ");
-            System.out.println("4. Save & Exit ");
+            System.out.println("4. DELETE ");
+            System.out.println("5. Save & Exit ");
             int option = InputHelper.readInt("Choose an option: ");
 
             switch (option) {
@@ -53,6 +54,10 @@ public class Main {
                     seeStatement(user);
                     break;
                 case 4:
+                    System.out.println("-----------------------------");
+                    removeTransaction(user);
+                    break;
+                case 5:
                     System.out.println("-----------------------------");
                     System.out.println("Saving data...");
                     TransactionRepository.save(user);
@@ -138,12 +143,33 @@ public class Main {
         if (list.isEmpty()) {
             System.out.println("No records found.");
         } else {
-            for (Transaction t : user.getTransactions()) {
-                System.out.println(t);
+            System.out.println("--- YOUR TRANSACTIONS ---");
+            for (int i = 0; i < list.size(); i++) {
+                System.out.printf("[%d] %s%n", i, list.get(i));
             }
         }
         System.out.println("-----------------------------");
         System.out.println("Final Balance: R$ " + user.calculateBalance());
     }
 
+    public static void removeTransaction(User user) {
+        List<Transaction> list = user.getTransactions();
+
+        seeStatement(user);
+
+        if (list.isEmpty()) {
+            return;
+        }
+
+        int index = InputHelper.readInt("\nEnter the index [#] to DELETE: ");
+
+        if (index >= 0 && index < list.size()) {
+            Transaction removed = list.remove(index);
+            System.out.println("SUCCESS: '" + removed.getDescription() + "' removed!");
+
+            TransactionRepository.save(user);
+        } else {
+            System.out.println("INVALID INDEX!");
+        }
+    }
 }
