@@ -19,7 +19,8 @@ public class TransactionRepository {
     public static void save(User user) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(PATH))) {
             for (Transaction t : user.getTransactions()) {
-                String line = String.format("%s,%s,% .2f,%s,%s",
+                String line = String.format("%d,%s,%s,% .2f,%s,%s",
+                        t.getId(),
                         t.getDate(),
                         t.getDescription(),
                         t.getAmount(),
@@ -36,23 +37,36 @@ public class TransactionRepository {
 
     public static void load(User user) {
         File file = new File(PATH);
+
         if (!file.exists())
             return;
+
+        user.getTransactions().clear();
 
         try (BufferedReader br = new BufferedReader(new FileReader((PATH)))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 Transaction t = new Transaction(
-                        data[1],
-                        Category.valueOf(data[4]),
-                        Double.parseDouble(data[2]),
-                        TransactionType.valueOf(data[3]),
-                        LocalDate.parse(data[0]));
+                        Integer.parseInt(data[0]),
+                        data[2],
+                        Double.parseDouble(data[3]),
+                        TransactionType.valueOf(data[4]),
+                        Category.valueOf(data[5]),
+                        LocalDate.parse(data[1]));
                 user.addTransaction(t);
             }
+            int maxId = 0;
+            for (Transaction t : user.getTransactions()) {
+                if (t.getId() > maxId) {
+                    maxId = t.getId();
+                }
+            }
+            Transaction.setNextId(maxId + 1);
+
         } catch (Exception e) {
             System.out.println("Error loading data: " + e.getMessage());
+
         }
     }
 }
