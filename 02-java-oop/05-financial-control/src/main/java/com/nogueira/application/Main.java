@@ -1,5 +1,6 @@
 package com.nogueira.application;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
@@ -60,7 +61,6 @@ public class Main {
                     running = false;
                     break;
                 default:
-                    System.out.println("-----------------------------");
                     System.out.println("Invalid option! Try again.");
             }
 
@@ -71,14 +71,23 @@ public class Main {
         System.out.println("   WELCOME TO WISECASH - 1st ACCESS   ");
         String name = InputHelper.readString("Enter your full name: ");
         LocalDate birthDate = InputHelper.readDate("Enter your birth date (YYYY-MM-DD): ");
-        double initialBalance = InputHelper.readDouble("Enter your current account balance: ");
-        return new User(name, birthDate, initialBalance);// modificar para 0.00
+
+        User user = new User(name, birthDate);
+
+        BigDecimal initialBalance = InputHelper.readBigDecimal("Enter your current account balance: ");
+        if (initialBalance.compareTo(BigDecimal.ZERO) > 0) {
+            Transaction firstDeposit = new Transaction("Initial Balance", initialBalance, TransactionType.INCOME,
+                    Category.OTHERS);
+            user.addTransaction(firstDeposit);
+        }
+
+        return user;
     }
 
     public static void addIncome(User user) {
         System.out.println("--- ADDING INCOME ---");
         String desc = InputHelper.readString("Description: ");
-        double value = InputHelper.readDouble("Value: ");
+        BigDecimal value = InputHelper.readBigDecimal("Value: ");
         Transaction t = new Transaction(desc, value, TransactionType.INCOME, Category.OTHERS);
         user.addTransaction(t);
         System.out.println("Success!");
@@ -101,7 +110,7 @@ public class Main {
         };
 
         String desc = InputHelper.readString("Description: ");
-        double value = InputHelper.readDouble("Value: ");
+        BigDecimal value = InputHelper.readBigDecimal("Value: ");
 
         Transaction t = new Transaction(desc, value, TransactionType.EXPENSE, cat);
         user.addTransaction(t);

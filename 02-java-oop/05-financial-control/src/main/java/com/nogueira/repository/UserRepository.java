@@ -15,10 +15,9 @@ public class UserRepository {
 
     public static void save(User user) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(PATH))) {
-            String line = String.format("%s,%s,%.2f,",
+            String line = String.format("%s,%s",
                     user.getName(),
-                    user.getBirthDate(),
-                    user.getInitialBalance());
+                    user.getBirthDate());
             bw.write(line);
         } catch (IOException e) {
             System.out.println("Error saving user profile: " + e.getMessage());
@@ -34,7 +33,7 @@ public class UserRepository {
             String line = br.readLine();
             while (line != null) {
                 String[] data = line.split(",");
-                return new User(data[0], LocalDate.parse(data[1]), Double.parseDouble(data[2]));
+                return new User(data[0], LocalDate.parse(data[1]));
             }
         } catch (IOException e) {
             System.out.println("Error loading user profile: " + e.getMessage());

@@ -1,11 +1,13 @@
 package com.nogueira.repository;
 
 import java.io.BufferedReader;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.nogueira.entities.Transaction;
@@ -50,7 +52,7 @@ public class TransactionRepository {
                 Transaction t = new Transaction(
                         Integer.parseInt(data[0]),
                         data[2],
-                        Double.parseDouble(data[3]),
+                        new BigDecimal((data[3]).trim()),
                         TransactionType.valueOf(data[4]),
                         Category.valueOf(data[5]),
                         LocalDate.parse(data[1]));
@@ -63,10 +65,8 @@ public class TransactionRepository {
                 }
             }
             Transaction.setNextId(maxId + 1);
-
         } catch (Exception e) {
             System.out.println("Error loading data: " + e.getMessage());
-
         }
     }
 }

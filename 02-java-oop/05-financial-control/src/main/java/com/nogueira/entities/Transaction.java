@@ -1,31 +1,42 @@
 package com.nogueira.entities;
 
 import java.time.LocalDate;
+import java.util.Locale;
+
 import com.nogueira.enums.Category;
 import com.nogueira.enums.TransactionType;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 public class Transaction {
 
     private static int nextId = 1;
     private final int id;
     private String description;
-    private double amount;
+    private BigDecimal amount;
     private LocalDate date;
     private TransactionType type;
     private Category category;
 
     // CONSTRUTOR DE NOVAS TRANSAÇOES NO MENU
-    public Transaction(String description, double amount, TransactionType type, Category category) {
-        this.id = nextId++;
+    public Transaction(String description, BigDecimal amount, TransactionType type, Category category) {
+        if (amount == null || amount.signum() <= 0) {
+            throw new IllegalArgumentException("Amount must be positive and not null.");
+        }
+        if (description == null || description.isBlank()) {
+            throw new IllegalArgumentException("Description cannot be empty.");
+        }
         this.description = description;
         this.amount = amount;
         this.type = type;
         this.category = category;
+
+        this.id = generateId();
         this.date = LocalDate.now();
     }
 
     // CONTRUTOR PARA CARREGAR TRANSAÇOES DO ARQUIVO
-    public Transaction(int id, String description, double amount, TransactionType type, Category category,
+    public Transaction(int id, String description, BigDecimal amount, TransactionType type, Category category,
             LocalDate date) {
         this.id = id;
         this.description = description;
@@ -37,6 +48,10 @@ public class Transaction {
 
     public int getId() {
         return this.id;
+    }
+
+    private int generateId() {
+        return nextId++;
     }
 
     public static void setNextId(int lastIdFound) {
@@ -51,14 +66,14 @@ public class Transaction {
         return this.category;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return this.amount;
     }
 
     // LOGICA DE NEGOCIO, CALCULA SALDO, ACRESCENTA OU SUBTRAI
-    public double getSignedAmount() {
+    public BigDecimal getSignedAmount() {
         if (this.type == TransactionType.EXPENSE) {
-            return this.amount * -1;
+            return this.amount.negate();
         } else {
             return this.amount;
         }
@@ -74,12 +89,15 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return String.format("ID: %03d | %2$td/%2$tm/%2$tY | %3$-15s | %4$8.2f | %5$s",
+        NumberFormat currencyFormater = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
+        String valorFormatado = currencyFormater.format(getSignedAmount());
+
+        return String.format("ID: %03d | %2$td/%2$tm/%2$tY | %3$-15s | %4$12s | %5$s",
                 getId(),
                 getDate(),
                 getDescription(),
-                getSignedAmount(),
+                valorFormatado,
                 getCategory());
-
     }
 }

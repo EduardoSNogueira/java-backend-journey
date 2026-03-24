@@ -1,33 +1,26 @@
 package com.nogueira.entities;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-
-import com.nogueira.enums.TransactionType;
-
 import java.util.ArrayList;
 
 public class User {
     private List<Transaction> transactions = new ArrayList<>();
     private String name;
     private LocalDate birthDate;
-    private double initialBalance;
+    private BigDecimal initialBalance;
 
-    public User(String name, LocalDate birthDate, double initialBalance) {
+    public User(String name, LocalDate birthDate) {
         this.name = name;
         this.birthDate = birthDate;
-        this.initialBalance = initialBalance;
     }
 
-    public double calculateBalance() {
-        double balance = initialBalance;
+    public BigDecimal calculateBalance() {
+        BigDecimal balance = BigDecimal.ZERO;
         for (Transaction t : transactions) {
-            if (t.getType() == TransactionType.INCOME) {
-                balance += t.getAmount();
-            } else {
-                balance -= t.getAmount();
-            }
+            balance = balance.add(t.getSignedAmount());
         }
         return balance;
     }
@@ -36,7 +29,7 @@ public class User {
         return birthDate;
     }
 
-    public double getInitialBalance() {
+    public BigDecimal getInitialBalance() {
         return initialBalance;
     }
 

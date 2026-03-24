@@ -1,5 +1,6 @@
 package com.nogueira.utils;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -21,13 +22,11 @@ public class InputHelper {
 
     }
 
-    public static Double readDouble(String message) {
+    public static BigDecimal readBigDecimal(String message) {
         while (true) {
             try {
-                System.out.print(message);
-                String input = sc.nextLine();
-
-                return Double.parseDouble(input);
+                String input = readString(message).replace(",", ".");
+                return new BigDecimal(input);
 
             } catch (NumberFormatException e) {
                 System.out.println("Error: Please enter a valid number.");
