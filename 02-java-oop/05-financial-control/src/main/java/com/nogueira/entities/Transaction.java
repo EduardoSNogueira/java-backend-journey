@@ -1,10 +1,11 @@
 package com.nogueira.entities;
 
 import java.time.LocalDate;
-import java.util.Locale;
 
 import com.nogueira.enums.Category;
 import com.nogueira.enums.TransactionType;
+import com.nogueira.utils.InputHelper;
+
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
@@ -89,7 +90,7 @@ public class Transaction {
 
     @Override
     public String toString() {
-        NumberFormat currencyFormater = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        NumberFormat currencyFormater = NumberFormat.getCurrencyInstance(InputHelper.BRAZIL);
 
         String valorFormatado = currencyFormater.format(getSignedAmount());
 

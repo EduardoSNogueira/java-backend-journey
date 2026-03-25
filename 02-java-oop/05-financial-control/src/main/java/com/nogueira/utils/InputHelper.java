@@ -2,10 +2,13 @@ package com.nogueira.utils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class InputHelper {
     private static final Scanner sc = new Scanner(System.in);
+
+    public static final Locale BRAZIL = new Locale("pt", "BR");
 
     public static int readInt(String message) {
         while (true) {

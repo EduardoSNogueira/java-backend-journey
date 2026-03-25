@@ -1,9 +1,15 @@
 package com.nogueira.enums;
 
 public enum Category {
+    INITIAL,
     FOOD,
     TRANSPORT,
     BILLS,
     LEISURE,
-    OTHERS;
+    OTHERS,
+    SALARY,
+    FREELANCE,
+    DIVIDENDS,
+    SALES,
+    GIFTS;
 }

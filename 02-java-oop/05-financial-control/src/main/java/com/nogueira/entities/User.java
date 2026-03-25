@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import com.nogueira.enums.Category;
+import com.nogueira.enums.TransactionType;
+
 import java.util.ArrayList;
 
 public class User {
@@ -49,6 +52,30 @@ public class User {
 
     public void addTransaction(Transaction t) {
         this.transactions.add(t);
+    }
+
+    public BigDecimal getTotalByEXPENSE(Category category) {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (Transaction t : transactions) {
+            if (t.getCategory() == category && t.getType() == TransactionType.EXPENSE) {
+                total = total.add(t.getAmount());
+
+            }
+        }
+        return total.abs();
+    }
+
+    public BigDecimal getTotalByINCOME(Category category) {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (Transaction t : transactions) {
+            if (t.getCategory() == category && t.getType() == TransactionType.INCOME) {
+                total = total.add(t.getAmount());
+
+            }
+        }
+        return total.abs();
     }
 
 }
