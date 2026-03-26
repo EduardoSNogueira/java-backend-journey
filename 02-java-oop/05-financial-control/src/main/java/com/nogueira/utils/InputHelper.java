@@ -53,4 +53,15 @@ public class InputHelper {
             }
         }
     }
+
+    public static String readNonEmptyString(String prompt) {
+        String input = "";
+        while (input.trim().isEmpty()) {
+            input = readString(prompt);
+            if (input.trim().isEmpty()) {
+                System.out.println("Erro: This field cannot be left empty. Please try again.");
+            }
+        }
+        return input;
+    }
 }

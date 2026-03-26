@@ -19,7 +19,6 @@ public class Main {
             user = createNewUser();
             UserRepository.save(user);
         }
-
         TransactionRepository.load(user);
 
         boolean running = true;
@@ -39,10 +38,10 @@ public class Main {
 
             switch (option) {
                 case 1:
-                    addIncome(user);
+                    addTransaction(user, TransactionType.INCOME);
                     break;
                 case 2:
-                    addExpense(user);
+                    addTransaction(user, TransactionType.EXPENSE);
                     break;
                 case 3:
                     seeStatement(user);
@@ -59,13 +58,12 @@ public class Main {
                 default:
                     System.out.println("Invalid option! Try again.");
             }
-
         }
     }
 
     public static User createNewUser() {
         System.out.println("   WELCOME TO WISECASH - 1st ACCESS   ");
-        String name = InputHelper.readString("Enter your full name: ");
+        String name = InputHelper.readNonEmptyString("Enter your full name: ");
         LocalDate birthDate = InputHelper.readDate("Enter your birth date (YYYY-MM-DD): ");
 
         User user = new User(name, birthDate);
@@ -76,52 +74,48 @@ public class Main {
                     Category.INITIAL);
             user.addTransaction(firstDeposit);
         }
-
         return user;
     }
 
-    public static void addIncome(User user) {
-        System.out.println("--- ADDING INCOME ---");
-        System.out.println("1. SALARY | 2. FREELANCE | 3. DIVIDENDS | 4. SALES | 5. GIFTS | 6.OTHERS");
-        int option = InputHelper.readInt("Choose category: ");
-
-        Category cat = switch (option) {
-            case 1 -> Category.SALARY;
-            case 2 -> Category.FREELANCE;
-            case 3 -> Category.DIVIDENDS;
-            case 4 -> Category.SALES;
-            case 5 -> Category.GIFTS;
-            default -> Category.OTHERS;
-        };
-        String desc = InputHelper.readString("Description: ");
-        BigDecimal value = InputHelper.readBigDecimal("Value: ");
-        Transaction t = new Transaction(desc, value, TransactionType.INCOME, cat);
-        user.addTransaction(t);
-        System.out.println("Success!");
-
+    public static Category readCategory(TransactionType type) {
+        if (type == TransactionType.INCOME) {
+            System.out.println("1. SALARY | 2. FREELANCE | 3. DIVIDENDS | 4. SALES | 5. GIFTS | 6.OTHERS");
+            int option = InputHelper.readInt("Choose income category: ");
+            return switch (option) {
+                case 1 -> Category.SALARY;
+                case 2 -> Category.FREELANCE;
+                case 3 -> Category.DIVIDENDS;
+                case 4 -> Category.SALES;
+                case 5 -> Category.GIFTS;
+                default -> Category.OTHERS;
+            };
+        } else {
+            System.out.println("1. FOOD | 2. TRANSPORT | 3. BILLS | 4. LEISURE | 5. OTHERS");
+            int option = InputHelper.readInt("Choose category: ");
+            return switch (option) {
+                case 1 -> Category.FOOD;
+                case 2 -> Category.TRANSPORT;
+                case 3 -> Category.BILLS;
+                case 4 -> Category.LEISURE;
+                default -> Category.OTHERS;
+            };
+        }
     }
 
-    public static void addExpense(User user) {
-
-        System.out.println("\n=== ADDING EXPENSE ===");
-        System.out.println("1. FOOD | 2. TRANSPORT | 3. BILLS | 4. LEISURE | 5. OTHERS");
-        int option = InputHelper.readInt("Choose category: ");
-
-        Category cat = switch (option) {
-            case 1 -> Category.FOOD;
-            case 2 -> Category.TRANSPORT;
-            case 3 -> Category.BILLS;
-            case 4 -> Category.LEISURE;
-            default -> Category.OTHERS;
-        };
-
-        String desc = InputHelper.readString("Description: ");
+    public static void addTransaction(User user, TransactionType type) {
+        if (type == TransactionType.INCOME) {
+            System.out.println("\n=== ADDING INCOME ===");
+        } else {
+            System.out.println("\n=== ADDING EXPENSE ===");
+        }
+        Category cat = readCategory(type);
+        String desc = InputHelper.readNonEmptyString("Description: ");
         BigDecimal value = InputHelper.readBigDecimal("Value: ");
 
-        Transaction t = new Transaction(desc, value, TransactionType.EXPENSE, cat);
+        Transaction t = new Transaction(desc, value, type, cat);
+
         user.addTransaction(t);
         System.out.println("Success!");
-
     }
 
     public static void seeStatement(User user) {
@@ -136,42 +130,18 @@ public class Main {
                 break;
             case 2:
                 filterType = TransactionType.INCOME;
-                System.out.println("1. All | 2. By Category ");
-                int choice2 = InputHelper.readInt("Option: ");
-                if (choice2 == 2) {
-                    System.out.println("1. SALARY | 2. FREELANCE | 3. DIVIDENDS | 4. SALES | 5. GIFTS | 6.OTHERS");
-                    int catOption = InputHelper.readInt("Choose category: ");
-
-                    filterCat = switch (catOption) {
-                        case 1 -> Category.SALARY;
-                        case 2 -> Category.FREELANCE;
-                        case 3 -> Category.DIVIDENDS;
-                        case 4 -> Category.SALES;
-                        case 5 -> Category.GIFTS;
-                        default -> Category.OTHERS;
-                    };
+                if (InputHelper.readInt("1. All | 2. By Category: ") == 2) {
+                    filterCat = readCategory(filterType);
                 }
                 break;
             case 3:
                 filterType = TransactionType.EXPENSE;
-                System.out.println("1. All | 2. By Category ");
-                int choice3 = InputHelper.readInt("Option: ");
-                if (choice3 == 2) {
-                    System.out.println("1. FOOD | 2. TRANSPORT | 3. BILLS | 4. LEISURE | 5. OTHERS");
-                    int catOption = InputHelper.readInt("Choose category: ");
-
-                    filterCat = switch (catOption) {
-                        case 1 -> Category.FOOD;
-                        case 2 -> Category.TRANSPORT;
-                        case 3 -> Category.BILLS;
-                        case 4 -> Category.LEISURE;
-                        default -> Category.OTHERS;
-                    };
+                if (InputHelper.readInt("1. All | 2. By Category: ") == 2) {
+                    filterCat = readCategory(filterType); // A MÁGICA ACONTECE AQUI
                 }
                 break;
             default:
                 System.out.println("Invalid option! Try again.");
-
                 break;
         }
 
@@ -182,15 +152,13 @@ public class Main {
         BigDecimal periodTotal = BigDecimal.ZERO;
 
         for (Transaction t : user.getTransactions()) {
-
             boolean matchesType = (filterType == null) || (t.getType() == filterType);
-
             boolean matchesCategory = (filterCat == null) || (t.getCategory() == filterCat);
             boolean matchesDate = !t.getDate().isBefore(start) && !t.getDate().isAfter(end);
+
             if (matchesDate && matchesType && matchesCategory) {
                 System.out.println(t);
                 periodTotal = periodTotal.add(t.getSignedAmount());
-
             }
         }
         System.out.println("Period Balance: R$ " + periodTotal);
@@ -198,7 +166,6 @@ public class Main {
 
     public static void removeTransaction(User user) {
         seeStatement(user);
-
         if (user.getTransactions().isEmpty())
             return;
 

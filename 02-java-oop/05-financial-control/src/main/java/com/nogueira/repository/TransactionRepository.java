@@ -21,7 +21,7 @@ public class TransactionRepository {
     public static void save(User user) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(PATH))) {
             for (Transaction t : user.getTransactions()) {
-                String line = String.format("%d,%s,%s,% .2f,%s,%s",
+                String line = String.format("%d,%s,%s,%.2f,%s,%s",
                         t.getId(),
                         t.getDate(),
                         t.getDescription(),
