@@ -8,6 +8,7 @@ import com.nogueira.enums.Category;
 import com.nogueira.enums.TransactionType;
 import com.nogueira.repository.TransactionRepository;
 import com.nogueira.repository.UserRepository;
+import com.nogueira.service.StatementService;
 import com.nogueira.utils.InputHelper;
 
 public class Main {
@@ -119,49 +120,41 @@ public class Main {
     }
 
     public static void seeStatement(User user) {
-        System.out.println("Show: 1. All | 2. Income | 3. Expense ");
-        int typeOp = InputHelper.readInt("Option: ");
+        int option = InputHelper.readInt("Show: 1. All | 2. Income | 3. Expense: ");
+        TransactionType selectedType = switch (option) {
+            case 2 -> TransactionType.INCOME;
+            case 3 -> TransactionType.EXPENSE;
+            default -> null;
+        };
 
-        TransactionType filterType = null;
         Category filterCat = null;
-
-        switch (typeOp) {
-            case 1:
-                break;
-            case 2:
-                filterType = TransactionType.INCOME;
-                if (InputHelper.readInt("1. All | 2. By Category: ") == 2) {
-                    filterCat = readCategory(filterType);
-                }
-                break;
-            case 3:
-                filterType = TransactionType.EXPENSE;
-                if (InputHelper.readInt("1. All | 2. By Category: ") == 2) {
-                    filterCat = readCategory(filterType); // A MÁGICA ACONTECE AQUI
-                }
-                break;
-            default:
-                System.out.println("Invalid option! Try again.");
-                break;
+        if (selectedType != null) {
+            int catOption = InputHelper.readInt("1. All | 2. By Category: ");
+            filterCat = switch (catOption) {
+                case 2 -> readCategory(selectedType);
+                default -> null;
+            };
         }
-
-        LocalDate start = InputHelper.readDate("Start Date (YYYY-MM-DD): ");
-        LocalDate end = InputHelper.readDate("End Date (YYYY-MM-DD): ");
-
-        System.out.println("--- FILTERED STATEMENT ---");
-        BigDecimal periodTotal = BigDecimal.ZERO;
-
-        for (Transaction t : user.getTransactions()) {
-            boolean matchesType = (filterType == null) || (t.getType() == filterType);
-            boolean matchesCategory = (filterCat == null) || (t.getCategory() == filterCat);
-            boolean matchesDate = !t.getDate().isBefore(start) && !t.getDate().isAfter(end);
-
-            if (matchesDate && matchesType && matchesCategory) {
-                System.out.println(t);
-                periodTotal = periodTotal.add(t.getSignedAmount());
+        int periodOption = InputHelper
+                .readInt("\nPeriod: 1. All | 2. Today | 3. Last 7 Days | 4. This Month | 5. Custom: ");
+        switch (periodOption) {
+            case 2 -> StatementService.showToday(user, selectedType, filterCat);
+            case 3 -> StatementService.showLastWeek(user, selectedType, filterCat);
+            case 4 -> StatementService.showCurrentMonth(user, selectedType, filterCat);
+            case 5 -> {
+                LocalDate start = InputHelper.readDate("Start Date (YYYY-MM-DD): ");
+                LocalDate end = InputHelper.readDate("End Date (YYYY-MM-DD): ");
+                StatementService.showCustom(user, selectedType, filterCat, start, end);
+            }
+            default -> {
+                LocalDate start = user.getTransactions().isEmpty()
+                        ? LocalDate.now()
+                        : user.getTransactions().get(0).getDate();
+                LocalDate end = LocalDate.now();
+                StatementService.showCustom(user, selectedType, filterCat, start, end);
             }
         }
-        System.out.println("Period Balance: R$ " + periodTotal);
+
     }
 
     public static void removeTransaction(User user) {
@@ -174,7 +167,7 @@ public class Main {
 
         if (removed) {
             System.out.println("SUCCESS: Transaction removed!");
-            TransactionRepository.save(user); //
+            TransactionRepository.save(user);
         } else {
             System.out.println("ERROR: ID not found!");
         }
