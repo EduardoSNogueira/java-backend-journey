@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class InputHelper {
     private static final Scanner sc = new Scanner(System.in);
 
-    public static final Locale BRAZIL = new Locale("pt", "BR");
+    public static final Locale BRAZIL = Locale.forLanguageTag("pt-BR");
 
     public static int readInt(String message) {
         while (true) {

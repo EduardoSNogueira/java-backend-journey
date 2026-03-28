@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
+import java.util.Locale;
 import com.nogueira.entities.Transaction;
 import com.nogueira.entities.User;
 import com.nogueira.enums.Category;
@@ -21,7 +21,7 @@ public class TransactionRepository {
     public static void save(User user) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(PATH))) {
             for (Transaction t : user.getTransactions()) {
-                String line = String.format("%d,%s,%s,%.2f,%s,%s",
+                String line = String.format(Locale.US, "%d,%s,%s,%.2f,%s,%s",
                         t.getId(),
                         t.getDate(),
                         t.getDescription(),

@@ -76,4 +76,9 @@ public class User {
         }
         return total.abs();
     }
+
+    public boolean removeTransactionById(int id) {
+        return this.transactions.removeIf(t -> t.getId() == id);
+    }
+
 }
