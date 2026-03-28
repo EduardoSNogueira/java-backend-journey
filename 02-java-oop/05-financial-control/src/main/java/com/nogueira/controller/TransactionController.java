@@ -84,6 +84,17 @@ public class TransactionController {
                 StatementService.showCustom(user, selectedType, filterCat, start, end);
             }
             default -> {
+                LocalDate start; // Primeiro declaramos a variável
+
+                if (user.getTransactions().isEmpty()) {
+                    start = LocalDate.now();
+                } else {
+                    // Pegamos a transação na posição 0 e extraímos a data dela
+                    start = user.getTransactions().get(0).getDate();
+                }
+
+                LocalDate end = LocalDate.now();
+                StatementService.showCustom(user, selectedType, filterCat, start, end);
                 LocalDate start = user.getTransactions().isEmpty()
                         ? LocalDate.now()
                         : user.getTransactions().get(0).getDate();
@@ -95,13 +106,18 @@ public class TransactionController {
     }
 
     public static void removeTransaction(User user) {
+        LocalDate today = LocalDate.now();
+        List<Transaction> currentList = StatementService.printFiltered(user, null, null, today, today);
         seeStatement(user);
-        if (user.getTransactions().isEmpty())
+
+        if (currentList.isEmpty())
             return;
 
         int idTarget = InputHelper.readInt("\nEnter the ID to DELETE: ");
-        boolean removed = user.removeTransactionById(idTarget);
-        if (removed) {
+        boolean isVisible = currentList.stream().anyMatch(t -> t.getId() == idTarget);
+        if (isVisible) {
+            user.removeTransactionById(idTarget);
+            TransactionRepository.save(user);
             System.out.println("SUCCESS: Transaction removed!");
             TransactionRepository.save(user);
         } else {

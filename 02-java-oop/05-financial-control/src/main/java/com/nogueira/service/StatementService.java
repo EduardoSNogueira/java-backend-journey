@@ -2,6 +2,9 @@ package com.nogueira.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.nogueira.enums.Category;
 
 import com.nogueira.entities.Transaction;
@@ -10,7 +13,9 @@ import com.nogueira.enums.TransactionType;
 
 public class StatementService {
 
-    private static void printFiltered(User user, TransactionType type, Category cat, LocalDate start, LocalDate end) {
+    public static List<Transaction> printFiltered(User user, TransactionType type, Category cat, LocalDate start,
+            LocalDate end) {
+        List<Transaction> filtered = new ArrayList<>();
         System.out.println("\n--- STATEMENT FROM " + start + " TO " + end + " ---");
         BigDecimal periodTotal = BigDecimal.ZERO;
 
@@ -21,10 +26,12 @@ public class StatementService {
 
             if (matchesDate && matchesType && matchesCategory) {
                 System.out.println(t);
+                filtered.add(t);
                 periodTotal = periodTotal.add(t.getSignedAmount());
             }
         }
         System.out.println("Period Balance: R$ " + periodTotal);
+        return filtered;
     }
 
     public static void showToday(User user, TransactionType type, Category cat) {
