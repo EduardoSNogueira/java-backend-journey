@@ -18,3 +18,10 @@ target/
 *.class
 
 bin/
+
+doc/
+bin/
+*.class
+.settings/
+.project/
+.classpath/

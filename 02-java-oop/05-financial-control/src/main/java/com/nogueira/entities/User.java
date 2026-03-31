@@ -60,7 +60,6 @@ public class User {
         for (Transaction t : transactions) {
             if (t.getCategory() == category && t.getType() == TransactionType.EXPENSE) {
                 total = total.add(t.getAmount());
-
             }
         }
         return total.abs();

@@ -22,7 +22,6 @@ public class InputHelper {
                 System.out.println("Error: Please enter a valid number.");
             }
         }
-
     }
 
     public static BigDecimal readBigDecimal(String message) {
@@ -35,7 +34,6 @@ public class InputHelper {
                 System.out.println("Error: Please enter a valid number.");
             }
         }
-
     }
 
     public static String readString(String message) {

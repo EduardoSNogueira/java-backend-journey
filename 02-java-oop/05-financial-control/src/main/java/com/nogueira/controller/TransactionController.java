@@ -84,20 +84,12 @@ public class TransactionController {
                 StatementService.showCustom(user, selectedType, filterCat, start, end);
             }
             default -> {
-                LocalDate start; // Primeiro declaramos a variável
-
+                LocalDate start;
                 if (user.getTransactions().isEmpty()) {
                     start = LocalDate.now();
                 } else {
-                    // Pegamos a transação na posição 0 e extraímos a data dela
                     start = user.getTransactions().get(0).getDate();
                 }
-
-                LocalDate end = LocalDate.now();
-                StatementService.showCustom(user, selectedType, filterCat, start, end);
-                LocalDate start = user.getTransactions().isEmpty()
-                        ? LocalDate.now()
-                        : user.getTransactions().get(0).getDate();
                 LocalDate end = LocalDate.now();
                 StatementService.showCustom(user, selectedType, filterCat, start, end);
             }
