@@ -13,24 +13,24 @@ import static org.junit.jupiter.api.Assertions.*;
 public class FinancialReportServiceTest {
 
 @Test
-@DisplayName("Deve agrupar e somar corretamente todas as categorias no relatório")
-void deveGerarRelatorioAgrupadoCorretamente() {
+@DisplayName("Should correctly group and sum all categories in the report")
+void shouldGroupAndSumAllCategoriesInReport() {
     // Arrange
-    List<Transaction> transacoes = List.of(
+    List<Transaction> transactions = List.of(
         new Transaction(Category.FOOD, new BigDecimal("250.00")),
         new Transaction(Category.FOOD, new BigDecimal("400.00")),
         new Transaction(Category.TRANSPORT, new BigDecimal("100.00"))
     );
 
     // Act
-    Map<Category, BigDecimal> resultado = FinancialReportService.calculateTotals(transacoes);
+    Map<Category, BigDecimal> result = FinancialReportService.calculateTotals(transactions);
 
     // Assert
     // Valida FOOD (650.00)
-    assertTrue(new BigDecimal("650.00").compareTo(resultado.get(Category.FOOD)) == 0);
+    assertTrue(new BigDecimal("650.00").compareTo(result.get(Category.FOOD)) == 0);
     // Valida TRANSPORT (100.00)
-    assertTrue(new BigDecimal("100.00").compareTo(resultado.get(Category.TRANSPORT)) == 0);
+    assertTrue(new BigDecimal("100.00").compareTo(result.get(Category.TRANSPORT)) == 0);
     // Valida que só existem 2 categorias no mapa
-    assertEquals(2, resultado.size());
+    assertEquals(2, result.size());
 }
 }
