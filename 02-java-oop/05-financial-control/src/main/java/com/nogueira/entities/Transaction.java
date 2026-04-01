@@ -47,6 +47,14 @@ public class Transaction {
         this.date = date;
     }
 
+    public Transaction(Category category, BigDecimal amount) {
+        this.id = 0;
+        this.category = category;
+        this.amount = amount;
+        this.description = "Teste";
+        this.type = TransactionType.EXPENSE;
+}
+
     public int getId() {
         return this.id;
     }
