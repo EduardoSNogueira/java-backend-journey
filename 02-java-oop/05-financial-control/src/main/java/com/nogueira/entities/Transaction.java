@@ -53,7 +53,7 @@ public class Transaction {
         this.amount = amount;
         this.description = "Teste";
         this.type = TransactionType.EXPENSE;
-}
+    }
 
     public int getId() {
         return this.id;
