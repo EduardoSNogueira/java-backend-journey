@@ -20,6 +20,10 @@ public class User {
         this.birthDate = birthDate;
     }
 
+    public User(String name) {
+    this(name, LocalDate.now());
+}
+
     public BigDecimal calculateBalance() {
         BigDecimal balance = BigDecimal.ZERO;
         for (Transaction t : transactions) {

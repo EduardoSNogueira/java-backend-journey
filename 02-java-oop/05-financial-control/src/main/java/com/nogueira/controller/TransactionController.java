@@ -99,7 +99,7 @@ public class TransactionController {
 
     public static void removeTransaction(User user) {
         LocalDate today = LocalDate.now();
-        List<Transaction> currentList = StatementService.printFiltered(user, null, null, today, today);
+        List<Transaction> currentList = StatementService.filterTransactions(user, null, null, today, today);
         seeStatement(user);
 
         if (currentList.isEmpty())
