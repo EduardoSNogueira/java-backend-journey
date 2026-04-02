@@ -85,6 +85,14 @@ public class TransactionController {
             case 5 -> {
                 start = InputHelper.readDate("Start Date (YYYY-MM-DD): ");
                 end = InputHelper.readDate("End Date (YYYY-MM-DD): ");
+                if (start.isAfter(end)) {
+                
+                //Auto-swap
+                System.out.println("[!] Start date was after end date. Automatically swapping for consistency.");
+                LocalDate temp = start;
+                start = end;
+                end = temp;
+                }
             }
             default -> {
                 start = user.getTransactions().isEmpty() ? LocalDate.now() : user.getTransactions().get(0).getDate();
