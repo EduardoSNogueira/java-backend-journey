@@ -26,11 +26,9 @@ void shouldGroupAndSumAllCategoriesInReport() {
     Map<Category, BigDecimal> result = FinancialReportService.calculateTotals(transactions);
 
     // Assert
-    // Valida FOOD (650.00)
+
     assertTrue(new BigDecimal("650.00").compareTo(result.get(Category.FOOD)) == 0);
-    // Valida TRANSPORT (100.00)
     assertTrue(new BigDecimal("100.00").compareTo(result.get(Category.TRANSPORT)) == 0);
-    // Valida que só existem 2 categorias no mapa
     assertEquals(2, result.size());
 }
 }

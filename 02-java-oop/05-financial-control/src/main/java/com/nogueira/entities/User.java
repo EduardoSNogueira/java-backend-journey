@@ -21,7 +21,7 @@ public class User {
     }
 
     public User(String name) {
-    this(name, LocalDate.now());
+        this(name, LocalDate.now());
 }
 
     public BigDecimal calculateBalance() {

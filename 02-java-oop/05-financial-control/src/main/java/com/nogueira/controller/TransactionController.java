@@ -13,6 +13,7 @@ import com.nogueira.repository.TransactionRepository;
 import com.nogueira.service.FinancialReportService;
 import com.nogueira.service.StatementService;
 import com.nogueira.utils.InputHelper;
+import com.nogueira.view.StatementView;
 
 public class TransactionController {
     public static void addTransaction(User user, TransactionType type) {
@@ -56,7 +57,7 @@ public class TransactionController {
         }
     }
 
-    public static void seeStatement(User user) {
+    public static List<Transaction> seeStatement(User user) {
         int option = InputHelper.readInt("Show: 1. All | 2. Income | 3. Expense: ");
         TransactionType selectedType = switch (option) {
             case 2 -> TransactionType.INCOME;
@@ -74,44 +75,40 @@ public class TransactionController {
         }
         int periodOption = InputHelper
                 .readInt("\nPeriod: 1. All | 2. Today | 3. Last 7 Days | 4. This Month | 5. Custom: ");
+        
+        LocalDate start;
+        LocalDate end = LocalDate.now();        
         switch (periodOption) {
-            case 2 -> StatementService.showToday(user, selectedType, filterCat);
-            case 3 -> StatementService.showLastWeek(user, selectedType, filterCat);
-            case 4 -> StatementService.showCurrentMonth(user, selectedType, filterCat);
+            case 2 -> start = LocalDate.now();
+            case 3 -> start = end.minusDays(7);
+            case 4 -> start = LocalDate.now().withDayOfMonth(1);
             case 5 -> {
-                LocalDate start = InputHelper.readDate("Start Date (YYYY-MM-DD): ");
-                LocalDate end = InputHelper.readDate("End Date (YYYY-MM-DD): ");
-                StatementService.showCustom(user, selectedType, filterCat, start, end);
+                start = InputHelper.readDate("Start Date (YYYY-MM-DD): ");
+                end = InputHelper.readDate("End Date (YYYY-MM-DD): ");
             }
             default -> {
-                LocalDate start;
-                if (user.getTransactions().isEmpty()) {
-                    start = LocalDate.now();
-                } else {
-                    start = user.getTransactions().get(0).getDate();
-                }
-                LocalDate end = LocalDate.now();
-                StatementService.showCustom(user, selectedType, filterCat, start, end);
+                start = user.getTransactions().isEmpty() ? LocalDate.now() : user.getTransactions().get(0).getDate();
             }
         }
-
-    }
+        List<Transaction> filtered = StatementService.filterTransactions(user, selectedType, filterCat, start, end);
+        StatementView.printList(filtered);
+        return filtered;
+}
 
     public static void removeTransaction(User user) {
-        LocalDate today = LocalDate.now();
-        List<Transaction> currentList = StatementService.filterTransactions(user, null, null, today, today);
-        seeStatement(user);
+        List<Transaction> filtered = seeStatement(user);
 
-        if (currentList.isEmpty())
+        if (filtered.isEmpty())
             return;
 
         int idTarget = InputHelper.readInt("\nEnter the ID to DELETE: ");
-        boolean isVisible = currentList.stream().anyMatch(t -> t.getId() == idTarget);
+
+        boolean isVisible = filtered.stream().anyMatch(t -> t.getId() == idTarget);   
+
         if (isVisible) {
-            user.removeTransactionById(idTarget);
-            TransactionRepository.save(user);
+            user.removeTransactionById(idTarget);   
+            TransactionRepository.save(user);         
             System.out.println("SUCCESS: Transaction removed!");
-            TransactionRepository.save(user);
         } else {
             System.out.println("ERROR: ID not found!");
         }
