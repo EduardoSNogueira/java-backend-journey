@@ -9,8 +9,13 @@ import com.nogueira.utils.InputHelper;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
+/**
+ * Representa uma transação financeira individual no WiseCash.
+ * Esta classe gerencia sua própria identidade através de um contador estático,
+ * garantindo IDs sequenciais durante a execução do sistema.
+ */
 public class Transaction {
-
+    /** Contador para geração de IDs únicos. Resetado via {@link #setNextId(int)}. */
     private static int nextId = 1;
     private final int id;
     private String description;
@@ -19,7 +24,11 @@ public class Transaction {
     private TransactionType type;
     private Category category;
 
-    // CONSTRUTOR DE NOVAS TRANSAÇOES NO MENU
+    /**
+     * Construtor para novas transações originadas pela interface do usuário.
+     * Valida os dados de entrada e gera automaticamente o ID e a data atual.
+     * * @throws IllegalArgumentException se o valor for menor ou igual a zero.
+     */    
     public Transaction(String description, BigDecimal amount, TransactionType type, Category category) {
         if (amount == null || amount.signum() <= 0) {
             throw new IllegalArgumentException("Amount must be positive and not null.");
@@ -36,7 +45,10 @@ public class Transaction {
         this.date = LocalDate.now();
     }
 
-    // CONTRUTOR PARA CARREGAR TRANSAÇOES DO ARQUIVO
+    /**
+     * Construtor de persistência. Utilizado para reconstruir objetos a partir do CSV.
+     * Não gera novo ID nem valida dados, assumindo que os dados lidos são íntegros.
+     */    
     public Transaction(int id, String description, BigDecimal amount, TransactionType type, Category category,
             LocalDate date) {
         this.id = id;
@@ -46,7 +58,10 @@ public class Transaction {
         this.category = category;
         this.date = date;
     }
-
+    /**
+     * Construtor simplificado para fins de teste e mock de relatórios.
+     * Define ID como 0 e tipo fixo como DESPESA.
+     */
     public Transaction(Category category, BigDecimal amount) {
         this.id = 0;
         this.category = category;
@@ -79,7 +94,6 @@ public class Transaction {
         return this.amount;
     }
 
-    // LOGICA DE NEGOCIO, CALCULA SALDO, ACRESCENTA OU SUBTRAI
     public BigDecimal getSignedAmount() {
         if (this.type == TransactionType.EXPENSE) {
             return this.amount.negate();

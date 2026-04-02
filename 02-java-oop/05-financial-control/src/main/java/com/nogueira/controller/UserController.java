@@ -9,6 +9,10 @@ import com.nogueira.enums.TransactionType;
 import com.nogueira.utils.InputHelper;
 import com.nogueira.enums.Category;
 
+/**
+ * Controlador de Usuário responsável pelo fluxo de Onboarding.
+ * Gerencia a captura de dados cadastrais e a configuração do saldo inicial.
+ */
 public class UserController {
 
     public static User createNewUser() {

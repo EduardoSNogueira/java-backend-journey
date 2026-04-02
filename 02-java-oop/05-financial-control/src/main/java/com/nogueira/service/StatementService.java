@@ -11,6 +11,10 @@ import com.nogueira.entities.Transaction;
 import com.nogueira.entities.User;
 import com.nogueira.enums.TransactionType;
 
+/**
+ * Serviço responsável pela filtragem e exibição de extratos financeiros.
+ * Permite a extração de dados por tipo, categoria e intervalos temporais específicos.
+ */
 public class StatementService {
 
     public static List<Transaction> filterTransactions(User user, TransactionType type, Category cat, LocalDate start, LocalDate end) {

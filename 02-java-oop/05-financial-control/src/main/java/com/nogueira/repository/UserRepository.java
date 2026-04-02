@@ -10,6 +10,11 @@ import java.time.LocalDate;
 
 import com.nogueira.entities.User;
 
+/**
+ * Responsável pela persistência dos dados cadastrais do usuário.
+ * Armazena informações básicas como nome e data de nascimento em um arquivo separado
+ * para facilitar a inicialização do perfil no arranque do sistema.
+ */
 public class UserRepository {
     private static final String PATH = "user_profile.csv";
 

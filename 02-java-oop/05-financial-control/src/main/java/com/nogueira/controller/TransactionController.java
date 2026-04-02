@@ -15,6 +15,11 @@ import com.nogueira.service.StatementService;
 import com.nogueira.utils.InputHelper;
 import com.nogueira.view.StatementView;
 
+/**
+ * Controlador responsável por coordenar a interação entre o usuário (View)
+ * e o domínio do sistema (Entities/Services).
+ * Gerencia o fluxo de criação, visualização e remoção de transações.
+ */
 public class TransactionController {
     public static void addTransaction(User user, TransactionType type) {
         if (type == TransactionType.INCOME) {
@@ -86,8 +91,9 @@ public class TransactionController {
                 start = InputHelper.readDate("Start Date (YYYY-MM-DD): ");
                 end = InputHelper.readDate("End Date (YYYY-MM-DD): ");
                 if (start.isAfter(end)) {
-                
-                //Auto-swap
+
+                //(Auto-swap):Garante que o intervalo de datas seja válido
+                // mesmo que o usuário inverta a ordem de digitação.
                 System.out.println("[!] Start date was after end date. Automatically swapping for consistency.");
                 LocalDate temp = start;
                 start = end;

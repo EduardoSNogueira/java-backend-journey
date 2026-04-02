@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Serviço especializado na geração de relatórios e agregações financeiras.
+ * Utiliza Java Streams para processamento eficiente de grandes volumes de transações.
+ */
 public class FinancialReportService {
 
     public static Map<Category, BigDecimal> calculateTotals(List<Transaction> transacoes) {

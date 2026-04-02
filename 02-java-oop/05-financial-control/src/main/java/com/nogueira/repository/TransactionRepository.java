@@ -15,9 +15,21 @@ import com.nogueira.entities.User;
 import com.nogueira.enums.Category;
 import com.nogueira.enums.TransactionType;
 
+/**
+ * Gerencia a persistência de transações em arquivos planos (CSV).
+ * <p>
+ * O formato do arquivo segue o padrão:
+ * ID, Data (ISO), Descrição, Valor (US Locale), Tipo, Categoria
+ * </p>
+ */
 public class TransactionRepository {
     private static final String PATH = "transactions.csv";
-
+    /**
+     * Salva todas as transações do usuário no arquivo CSV.
+     * Utiliza {@link Locale#US} para garantir que o separador decimal seja o ponto (.),
+     * evitando conflitos com o separador de colunas (vírgula).
+     * * @param user O usuário cujas transações serão persistidas.
+     */
     public static void save(User user) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(PATH))) {
             for (Transaction t : user.getTransactions()) {
@@ -44,27 +56,27 @@ public class TransactionRepository {
             return;
 
         user.getTransactions().clear();
+        int maxIdFound = 0;
 
         try (BufferedReader br = new BufferedReader(new FileReader((PATH)))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
+                int currentId = Integer.parseInt(data[0]);
+                if (currentId > maxIdFound) {
+                maxIdFound = currentId;
+                }   
+                
                 Transaction t = new Transaction(
-                        Integer.parseInt(data[0]),
-                        data[2],
-                        new BigDecimal((data[3]).trim()),
-                        TransactionType.valueOf(data[4]),
-                        Category.valueOf(data[5]),
-                        LocalDate.parse(data[1]));
-                user.addTransaction(t);
-            }
-            int maxId = 0;
-            for (Transaction t : user.getTransactions()) {
-                if (t.getId() > maxId) {
-                    maxId = t.getId();
-                }
-            }
-            Transaction.setNextId(maxId + 1);
+                    currentId,
+                    data[2],
+                    new BigDecimal(data[3].trim()),
+                    TransactionType.valueOf(data[4]),
+                    Category.valueOf(data[5]),
+                    LocalDate.parse(data[1]));
+                    user.addTransaction(t);
+        }
+        Transaction.setNextId(maxIdFound + 1);
         } catch (Exception e) {
             System.out.println("Error loading data: " + e.getMessage());
         }

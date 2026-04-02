@@ -8,7 +8,10 @@ import com.nogueira.enums.Category;
 import com.nogueira.enums.TransactionType;
 
 import java.util.ArrayList;
-
+/**
+ * Entidade que representa o usuário do sistema e concentra suas movimentações financeiras.
+ * Responsável por gerenciar a lista de transações e realizar cálculos de saldo e idade.
+ */
 public class User {
     private List<Transaction> transactions = new ArrayList<>();
     private String name;
@@ -22,7 +25,7 @@ public class User {
 
     public User(String name) {
         this(name, LocalDate.now());
-}
+    }
 
     public BigDecimal calculateBalance() {
         BigDecimal balance = BigDecimal.ZERO;
@@ -45,9 +48,9 @@ public class User {
     }
 
     public int getAge() {
-        LocalDate today = LocalDate.now(); // data de hoje
-        long age = ChronoUnit.YEARS.between(this.birthDate, today);// quantos anos entre a data de nascimento e hoje
-        return (int) age;// converte para 'int'
+        LocalDate today = LocalDate.now(); 
+        long age = ChronoUnit.YEARS.between(this.birthDate, today);
+        return (int) age;
     }
 
     public List<Transaction> getTransactions() {

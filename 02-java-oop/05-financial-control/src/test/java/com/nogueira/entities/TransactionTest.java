@@ -20,6 +20,7 @@ public class TransactionTest {
     void shouldReturnPositiveAmountWhenTypeIsIncome() {
         BigDecimal value = new BigDecimal("100.00");
         Transaction income = new Transaction("Freelance", value, TransactionType.INCOME, Category.FREELANCE);
+        
         assertEquals(value, income.getSignedAmount(), "Income should remain positive");
         assertEquals(1, income.getId());
     }
@@ -41,5 +42,5 @@ public class TransactionTest {
         assertEquals(1, t1.getId());
         assertEquals(2, t2.getId());
         assertEquals(3, t3.getId());
-}
+    }
 }

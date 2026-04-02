@@ -5,6 +5,11 @@ import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Scanner;
 
+/**
+ * Utilitário para captura e validação de entradas via console.
+ * Centraliza o tratamento de exceções de tipos de dados (int, BigDecimal, LocalDate)
+ * para garantir a integridade das informações coletadas.
+ */
 public class InputHelper {
     private static final Scanner sc = new Scanner(System.in);
 
