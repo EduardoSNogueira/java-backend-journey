@@ -8,14 +8,19 @@ import com.nogueira.entities.User;
 import com.nogueira.enums.TransactionType;
 import com.nogueira.utils.InputHelper;
 import com.nogueira.enums.Category;
+import com.nogueira.dao.UserDAO;
 
 /**
  * Controlador de Usuário responsável pelo fluxo de Onboarding.
  * Gerencia a captura de dados cadastrais e a configuração do saldo inicial.
  */
 public class UserController {
+        private final UserDAO userDAO;
+    public UserController(UserDAO dao) { 
+        this.userDAO = dao; 
+    }
 
-    public static User createNewUser() {
+    public User createNewUser() {
         System.out.println("   WELCOME TO WISECASH - 1st ACCESS   ");
         String name = InputHelper.readNonEmptyString("Enter your full name: ");
         LocalDate birthDate = InputHelper.readDate("Enter your birth date (YYYY-MM-DD): ");
@@ -28,6 +33,7 @@ public class UserController {
                     Category.INITIAL);
             user.addTransaction(firstDeposit);
         }
+        userDAO.save(user);
         return user;
     }
 

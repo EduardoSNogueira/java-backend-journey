@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.nogueira.enums.Category;
+import com.nogueira.dao.TransactionDAO;
 import com.nogueira.entities.Transaction;
 import com.nogueira.entities.User;
 import com.nogueira.enums.TransactionType;
-import com.nogueira.repository.TransactionRepository;
 import com.nogueira.service.FinancialReportService;
 import com.nogueira.service.StatementService;
 import com.nogueira.utils.InputHelper;
@@ -21,7 +21,12 @@ import com.nogueira.view.StatementView;
  * Gerencia o fluxo de criação, visualização e remoção de transações.
  */
 public class TransactionController {
-    public static void addTransaction(User user, TransactionType type) {
+    private final TransactionDAO transactionDAO;
+    public TransactionController(TransactionDAO dao) { 
+        this.transactionDAO = dao; 
+    }
+
+    public void addTransaction(User user, TransactionType type) {
         if (type == TransactionType.INCOME) {
             System.out.println("\n=== ADDING INCOME ===");
         } else {
@@ -37,7 +42,7 @@ public class TransactionController {
         System.out.println("Success!");
     }
 
-    public static Category readCategory(TransactionType type) {
+    public Category readCategory(TransactionType type) {
         if (type == TransactionType.INCOME) {
             System.out.println("1. SALARY | 2. FREELANCE | 3. DIVIDENDS | 4. SALES | 5. GIFTS | 6.OTHERS");
             int option = InputHelper.readInt("Choose income category: ");
@@ -62,7 +67,7 @@ public class TransactionController {
         }
     }
 
-    public static List<Transaction> seeStatement(User user) {
+    public List<Transaction> seeStatement(User user) {
         int option = InputHelper.readInt("Show: 1. All | 2. Income | 3. Expense: ");
         TransactionType selectedType = switch (option) {
             case 2 -> TransactionType.INCOME;
@@ -109,7 +114,7 @@ public class TransactionController {
         return filtered;
 }
 
-    public static void removeTransaction(User user) {
+    public void removeTransaction(User user) {
         List<Transaction> filtered = seeStatement(user);
 
         if (filtered.isEmpty())
@@ -121,14 +126,14 @@ public class TransactionController {
 
         if (isVisible) {
             user.removeTransactionById(idTarget);   
-            TransactionRepository.save(user);         
+            transactionDAO.save(user);
             System.out.println("SUCCESS: Transaction removed!");
         } else {
             System.out.println("ERROR: ID not found!");
         }
     }
 
-    public static void seeReport(User user) {
+    public void seeReport(User user) {
         Map<Category, BigDecimal> report = FinancialReportService.calculateTotals(user.getTransactions());
         int option = InputHelper.readInt("Show: 1. All | 2. Income | 3. Expense: ");
         switch (option) {
