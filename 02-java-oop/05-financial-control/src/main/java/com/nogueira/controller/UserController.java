@@ -15,7 +15,7 @@ import com.nogueira.dao.UserDAO;
  * Gerencia a captura de dados cadastrais e a configuração do saldo inicial.
  */
 public class UserController {
-        private final UserDAO userDAO;
+    private final UserDAO userDAO;
     public UserController(UserDAO dao) { 
         this.userDAO = dao; 
     }

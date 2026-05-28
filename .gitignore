@@ -1,27 +1,24 @@
-# Maven
+# --- Build & Compilados ---
 target/
+bin/
+*.class
+*.log
+*.jar
+*.war
+
+# --- Maven ---
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
-*.log
 
-# IDEs
+# --- IDEs & Configurações ---
 .vscode/
 .settings/
 .classpath
 .project
+.idea/
+*.iml
 
-# Sistema
+# --- Sistema e Outros ---
 .DS_Store
-
-target/
-*.class
-
-bin/
-
 doc/
-bin/
-*.class
-.settings/
-.project/
-.classpath/
