@@ -1,51 +1,39 @@
-# 💰 WiseCash - Personal Finance Management System (CLI)
+# WiseCash — controle financeiro no terminal
 
-**WiseCash** is a command-line interface (CLI) application developed in **Java** to assist with personal financial control. The primary focus of this project is to apply the fundamentals of **Object-Oriented Programming (OOP)** and **data persistence** in backend systems.
+**Status: pausado em outubro de 2026.** O projeto permanece como registro de aprendizagem. O foco atual é retomar os fundamentos de Java e o curso da Udemy.
 
----
+Aplicação de estudo em Java para controle financeiro pessoal no terminal, com persistência em arquivos CSV.
 
-## 🚀 Technologies
+## Estrutura do código
 
-* **Language:** Java 17+
-* **Persistence:** CSV (Comma-Separated Values) files
-* **Environment:** Linux Mint (XFCE)
-* **Build Tool:** Java Compiler (javac) / IDE (IntelliJ or VS Code)
+- Entidades User e Transaction.
+- Categorias e tipos de transação representados por enums.
+- Controllers para interação com a aplicação.
+- Interfaces DAO e implementações para arquivos CSV.
+- Serviços de extrato e relatório financeiro.
+- Testes JUnit para entidades e serviços.
 
----
+## Tecnologias presentes
 
-## 🛠️ Features
+Java, Maven, CSV, BigDecimal, LocalDate e JUnit. Consulte o pom.xml para a configuração do projeto.
 
-- [x] **Profile Management:** Create a user profile with automatic age calculation and initial balance setup.
-- [x] **Income Tracking:** Add financial entries with descriptions and values.
-- [x] **Expense Management:** Categorize spending (Food, Transport, Leisure, etc.).
-- [x] **Detailed Statement:** View all transactions with an updated final balance.
-- [x] **Data Persistence:** All data is automatically saved to `.csv` files, ensuring information is retained after closing the program.
+## Escopo documentado
 
----
+O projeto contém código para cadastro de perfil, receitas, despesas, extrato e persistência CSV. Esta atualização de documentação não representa uma nova validação da execução ou dos testes.
 
-## 🧠 Software Engineering Concepts Applied
+## Ideias futuras — fora do escopo atual
 
-This project was built to demonstrate technical maturity in the following areas:
+Os itens abaixo eram propostas de evolução e não são apresentados como funcionalidades entregues nesta versão:
 
-1.  **Encapsulation:** Protecting entity data (User, Transaction) using access modifiers and getter/setter methods.
-2.  **Business Logic:** Implementation of conditional flows for real-time balance calculations (additions and subtractions).
-3.  **File Handling (I/O):** Logic for reading and writing structured data efficiently.
-4.  **Code Organization:** Separation of concerns to ensure clean, maintainable, and readable code.
+- API REST com Spring Boot.
+- Banco de dados PostgreSQL.
+- Autenticação JWT.
+- Exportação de relatórios em PDF.
 
----
-📈 Roadmap
-- [x] Transition to a REST API using Spring Boot 3.x.
-- [x] Database integration with PostgreSQL.
-- [x] Implementation of JWT Security for authentication.
-- [x] Monthly report generation in PDF format.
----
-## 📸 Usage Example
+## Demonstração
 
-Below is a demonstration of the application running, showing the dynamic student registration and the final report.
+![Demonstração da aplicação](demo.jpeg)
 
-![Application Demo](demo.jpeg)
+## Autor
 
----
-🤝 Contact
-Eduardo S Nogueira Software Engineering Student (IESB) 📍 Brasília, Brazil.
----
+[Eduardo Nogueira](https://www.linkedin.com/in/eduardosnogueira/) — estudante de Engenharia de Software no IESB.
